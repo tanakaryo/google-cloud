@@ -1,6 +1,6 @@
 variable "project_id" {
     type = string
-    default = "soy-braid-298113"
+    default = "<input_your_project_id>"
 }
 
 variable "region" {
