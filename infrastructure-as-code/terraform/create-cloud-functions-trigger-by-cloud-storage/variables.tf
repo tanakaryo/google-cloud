@@ -1,6 +1,6 @@
 variable "project_id" {
     type = string
-    default = "nifty-gasket-399805"
+    default = "<project_id>"
 }
 
 variable "region" {
