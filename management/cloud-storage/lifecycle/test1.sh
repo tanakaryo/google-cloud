@@ -25,4 +25,4 @@ gsutil cp ./upload-items/test1.txt gs://${BKT_NAME}
 
 ## delete bucket.
 #gcloud storage rm --recursive gs://${BKT_NAME}
-#gsutil rm -r gs://${BKT_NAME}
+gsutil rm -r gs://${BKT_NAME}
