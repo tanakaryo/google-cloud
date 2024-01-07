@@ -12,7 +12,7 @@ import com.google.pubsub.v1.PubsubMessage;
 public class SubscriberAsyncMain {
     
     public static void main(String[] args) throws Exception {
-        String projectId = "dataflowtest002";
+        String projectId = "project-id";
         String subscriptionId = "test-sub";
 
         subscribeAsyncMain(projectId, subscriptionId);

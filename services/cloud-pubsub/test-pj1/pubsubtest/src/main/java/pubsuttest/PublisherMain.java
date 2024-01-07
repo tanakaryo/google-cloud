@@ -13,7 +13,7 @@ import com.google.pubsub.v1.TopicName;
 public class PublisherMain {
     
     public static void main(String[] args) throws Exception {
-        String projectId = "dataflowtest002";
+        String projectId = "project-id";
         String topicId = "test-topic";
 
         publishMain(projectId, topicId);
