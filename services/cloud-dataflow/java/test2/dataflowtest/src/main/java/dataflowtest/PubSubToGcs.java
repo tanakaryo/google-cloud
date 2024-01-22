@@ -2,7 +2,6 @@ package dataflowtest;
 
 import java.io.IOException;
 
-import org.apache.beam.examples.common.WriteOneFilePerWindow;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.Compression;
 import org.apache.beam.sdk.io.TextIO;
@@ -12,10 +11,8 @@ import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.options.StreamingOptions;
 import org.apache.beam.sdk.options.Validation.Required;
-import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.windowing.FixedWindows;
 import org.apache.beam.sdk.transforms.windowing.Window;
-import org.apache.beam.sdk.values.PCollection;
 import org.joda.time.Duration;
 
 public class PubSubToGcs {
@@ -54,8 +51,8 @@ public class PubSubToGcs {
         options.setStreaming(true);
 
         Pipeline pipeline = Pipeline.create(options);
-        //PCollection pc1 = pipeline.apply(Create.of("Hello"));
-
+        PubsubIO.Read<String> read = PubsubIO.readStrings().fromTopic(options.getInputTopic());
+        Window<String> window = Window.<String>into(FixedWindows.of(Duration.standardMinutes(options.getWindowSize())));
         TextIO.Write write = TextIO.write().withWindowedWrites().to(options.getBucketName()).withCompression(Compression.GZIP).withNumShards(5);
 
         pipeline
