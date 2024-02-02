@@ -24,7 +24,6 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
 import io.cloudevents.CloudEvent;
-import lombok.Data;
 
 public class JsonEventConverterFn implements CloudEventsFunction {
 
