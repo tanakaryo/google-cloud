@@ -2,9 +2,7 @@ package dataflowtest.pipeline;
 
 import java.io.IOException;
 
-import org.apache.beam.examples.common.WriteOneFilePerWindow;
 import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.io.FileBasedSink;
 import org.apache.beam.sdk.io.FileSystems;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.fs.ResourceId;
@@ -22,11 +20,6 @@ import dataflowtest.policy.CustomFileNamePolicy;
 
 public class CustomFilenamePipeline {
 
-    
-
-
-
-    
     public interface PubSubToGcsMPOptions extends StreamingOptions {
         @Description("The Cloud Pub/Sub topic to read from.")
         @Required
@@ -60,23 +53,14 @@ public class CustomFilenamePipeline {
 
         options.setStreaming(true);
 
-
-
-        
-
         Pipeline pipeline = Pipeline.create(options);
 
         String gcsPath = new StringBuilder().append("gs://").append(options.getBucketName()).append("/").toString();
         CustomFileNamePolicy policy = new CustomFileNamePolicy(gcsPath);
         ResourceId resourceId = FileSystems.matchNewResource(gcsPath, true);
 
-
-
         PubsubIO.Read<String> read = PubsubIO.readStrings().fromTopic(options.getInputTopic());
         Window<String> window = Window.<String>into(FixedWindows.of(Duration.standardMinutes(options.getWindowSize())));
-
-        //ResourceId resource = FileBasedSink.convertToFileResourceIfPossible(options.getBucketName());
-        //ResourceId resource = buildResourcePath(options.getBucketName());
         TextIO.Write write = TextIO.write().to(policy)
         .withTempDirectory(resourceId.getCurrentDirectory())
         .withWindowedWrites().withNumShards(5);
@@ -91,10 +75,5 @@ public class CustomFilenamePipeline {
 
         // Execute the pipeline and wait until it finishes running.
         pipeline.run();
-    }
-
-    private static ResourceId buildResourcePath(String bucketName) {
-        String gcsPath = new StringBuilder().append("gs://").append(bucketName).append("/").toString();
-        return FileBasedSink.convertToFileResourceIfPossible(gcsPath);
     }
 }

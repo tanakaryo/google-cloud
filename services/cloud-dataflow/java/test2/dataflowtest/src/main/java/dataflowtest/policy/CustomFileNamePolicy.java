@@ -1,11 +1,6 @@
 package dataflowtest.policy;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
-import java.time.LocalDate;
-
 import org.apache.beam.repackaged.core.org.apache.commons.lang3.StringUtils;
-import org.apache.beam.sdk.io.FileBasedSink;
 import org.apache.beam.sdk.io.FileSystems;
 import org.apache.beam.sdk.io.FileBasedSink.FilenamePolicy;
 import org.apache.beam.sdk.io.FileBasedSink.OutputFileHints;
