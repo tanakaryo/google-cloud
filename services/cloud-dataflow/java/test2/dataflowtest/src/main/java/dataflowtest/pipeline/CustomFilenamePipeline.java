@@ -3,8 +3,9 @@ package dataflowtest.pipeline;
 import java.io.IOException;
 
 import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.io.Compression;
+import org.apache.beam.sdk.io.FileSystems;
 import org.apache.beam.sdk.io.TextIO;
+import org.apache.beam.sdk.io.fs.ResourceId;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.Default;
 import org.apache.beam.sdk.options.Description;
@@ -15,7 +16,10 @@ import org.apache.beam.sdk.transforms.windowing.FixedWindows;
 import org.apache.beam.sdk.transforms.windowing.Window;
 import org.joda.time.Duration;
 
-public class PubSubToGcsMultiPipeLine {
+import dataflowtest.policy.CustomFileNamePolicy;
+
+public class CustomFilenamePipeline {
+
     public interface PubSubToGcsMPOptions extends StreamingOptions {
         @Description("The Cloud Pub/Sub topic to read from.")
         @Required
@@ -50,10 +54,16 @@ public class PubSubToGcsMultiPipeLine {
         options.setStreaming(true);
 
         Pipeline pipeline = Pipeline.create(options);
+
+        String gcsPath = new StringBuilder().append("gs://").append(options.getBucketName()).append("/").toString();
+        CustomFileNamePolicy policy = new CustomFileNamePolicy(gcsPath);
+        ResourceId resourceId = FileSystems.matchNewResource(gcsPath, true);
+
         PubsubIO.Read<String> read = PubsubIO.readStrings().fromTopic(options.getInputTopic());
         Window<String> window = Window.<String>into(FixedWindows.of(Duration.standardMinutes(options.getWindowSize())));
-        TextIO.Write write = TextIO.write().withWindowedWrites().to(options.getBucketName())
-                .withCompression(Compression.GZIP).withNumShards(5);
+        TextIO.Write write = TextIO.write().to(policy)
+        .withTempDirectory(resourceId.getCurrentDirectory())
+        .withWindowedWrites().withNumShards(5);
 
         pipeline
                 // 1) Read string messages from a Pub/Sub topic.
