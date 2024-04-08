@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "com.myapp.convfl.process.Test",
+            "projectName": "conv-file"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "com.myapp.convfl.process.App",
+            "projectName": "conv-file"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ConvFileApplication<conv-file>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.myapp.convfl.ConvFileApplication",
+            "projectName": "conv-file",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
