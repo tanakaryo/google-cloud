@@ -1,0 +1,6 @@
+cloudfn/JsonEventConverterFn.class
+cloudfn/GCSEventFunction.class
+cloudfn/HelloWorld.class
+cloudfn/elements/StudentProfile.class
+cloudfn/App.class
+cloudfn/App2.class
