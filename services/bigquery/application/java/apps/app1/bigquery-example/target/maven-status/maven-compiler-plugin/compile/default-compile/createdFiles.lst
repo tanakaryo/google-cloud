@@ -1,0 +1,5 @@
+example/WriteMain.class
+example/App.class
+example/BqReadWriteBucket.class
+example/App$SimpleRowReader.class
+example/BqReadInsert.class
