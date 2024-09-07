@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "BqReadInsert",
+            "request": "launch",
+            "mainClass": "example.BqReadInsert",
+            "projectName": "bigquery-example"
+        },
+        {
+            "type": "java",
+            "name": "BqReadWriteBucket",
+            "request": "launch",
+            "mainClass": "example.BqReadWriteBucket",
+            "projectName": "bigquery-example"
+        },
+        {
+            "type": "java",
+            "name": "WriteMain",
+            "request": "launch",
+            "mainClass": "example.WriteMain",
+            "projectName": "bigquery-example"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "example.App",
+            "vmArgs": "--add-opens=java.base/java.nio=ALL-UNNAMED",
+            "projectName": "bigquery-example"
+        }
+    ]
+}
