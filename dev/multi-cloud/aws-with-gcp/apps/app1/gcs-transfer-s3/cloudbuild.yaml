@@ -1,0 +1,37 @@
+steps:
+# Run test script
+- name: gcr.io/cloud-builders/mvn
+  dir: gcs-transfer-s3
+  entrypoint: mvn
+  args: [ "test" ]
+- name: gcr.io/cloud-builders/gcloud
+  dir: gcs-transfer-s3
+  entrypoint: gcloud
+  args:
+  - run
+  - jobs
+  - deploy
+  - job-quickstart
+  - --source=.
+  - --tasks=1
+  - --max-retries=1
+  - --region=${_REGION}
+  - --project=${_PROJECT_ID}
+  - --network=vpc-1
+  - --subnet=subnet-1
+  - --vpc-egress=all-traffic
+  - --cpu=1
+  - --memory=1Gi
+  - --add-volume
+  - name=volume-mnt,type=in-memory,size-limit=1Mi
+  - --add-volume-mount
+  - volume=volume-mnt,mount-path=/mnt/my-volume
+  - --set-env-vars=SLEEP_MS=10000
+  - --set-env-vars=FAIL_RATE=0.1
+  - --set-env-vars=CONTRACTOR=PMJ
+  - --set-env-vars=AWS_WEB_IDENTITY_TOKEN_FILE=/mnt/my-volume/awscreds
+  - --set-env-vars=AWS_ROLE_ARN=arn:aws:iam::610035484565:role/aws-allow-gcp-access
+  - --set-env-vars=AWS_ROLE_SESSION_NAME=test_session
+  - --set-env-vars=AWS_S3_BUCKET_NAME=my-aws-bucket-test-jp-20250410
+  - --set-env-vars=PROJECT_ID=${_PROJECT_ID}
+  - --set-env-vars=GCS_BUCKET_NAME=common-file-transfer-private-test-bucket
